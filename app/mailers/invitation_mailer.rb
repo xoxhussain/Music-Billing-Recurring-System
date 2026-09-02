@@ -8,7 +8,7 @@ class InvitationMailer < ApplicationMailer
 
     mail(
       to: @invitation.email,
-      subject: "You're invited to join our music subscription platform"
+      subject: t(".subject")
     )
   end
 end

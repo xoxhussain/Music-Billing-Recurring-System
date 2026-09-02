@@ -1,2 +1,33 @@
-<h1>Invitations#accept</h1>
-<p>Find me in app/views/invitations/accept.html.erb</p>
+<h1>Accept Invitation</h1>
+
+<p>Create your account to continue.</p>
+
+<%= form_with model: @user,
+              url: accept_invitation_path(params[:token]),
+              method: :post do |form| %>
+
+  <div>
+    <%= form.label :email %>
+    <%= form.email_field :email, readonly: true %>
+  </div>
+
+  <div>
+    <%= form.label :name %>
+    <%= form.text_field :name %>
+  </div>
+
+  <div>
+    <%= form.label :password %>
+    <%= form.password_field :password %>
+  </div>
+
+  <div>
+    <%= form.label :password_confirmation %>
+    <%= form.password_field :password_confirmation %>
+  </div>
+
+  <div>
+    <%= form.submit "Create Account" %>
+  </div>
+
+<% end %>
