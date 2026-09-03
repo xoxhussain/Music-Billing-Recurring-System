@@ -1,10 +1,6 @@
 # frozen_string_literal: true
 
-class Admin::DashboardController < ApplicationController
-  include AdminAuthorization
-
-  layout "admin"
-
+class Admin::DashboardController < Admin::BaseController
   def index
     @plans_count = Plan.count
     @features_count = Feature.count

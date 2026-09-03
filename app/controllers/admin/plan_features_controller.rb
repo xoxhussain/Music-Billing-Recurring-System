@@ -1,8 +1,4 @@
-class Admin::PlanFeaturesController < ApplicationController
-  include AdminAuthorization
-
-  layout "admin"
-
+class Admin::PlanFeaturesController < Admin::BaseController
   before_action :set_plan
 
   def create
