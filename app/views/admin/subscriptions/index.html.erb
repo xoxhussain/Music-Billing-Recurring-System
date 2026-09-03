@@ -1,0 +1,47 @@
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <h1>Subscriptions</h1>
+</div>
+
+<div class="card shadow-sm">
+  <div class="card-body">
+    <div class="table-responsive">
+      <table class="table table-hover align-middle">
+        <thead>
+          <tr>
+            <th>Buyer</th>
+            <th>Plan</th>
+            <th>Status</th>
+            <th>Started</th>
+            <th>Usage</th>
+            <th></th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <% @subscriptions.each do |subscription| %>
+            <% status = subscription.subscription_statuses.max_by(&:created_at) %>
+
+            <tr>
+              <td><%= subscription.user.name %></td>
+              <td><%= subscription.plan.name %></td>
+              <td>
+                <span class="badge bg-primary">
+                  <%= status&.status&.humanize || "Unknown" %>
+                </span>
+              </td>
+              <td><%= subscription.started_at.to_date %></td>
+              <td>
+                <%= subscription.usage_entries.sum(&:quantity) %> units
+              </td>
+              <td>
+                <%= link_to "View",
+                    admin_subscription_path(subscription),
+                    class: "btn btn-outline-primary btn-sm" %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

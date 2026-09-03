@@ -1,0 +1,75 @@
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <div>
+    <h1>Dashboard</h1>
+    <p class="text-muted">Overview of your music application.</p>
+  </div>
+</div>
+
+<div class="row g-4">
+  <div class="col-md-6 col-xl-3">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h6 class="text-muted">Plans</h6>
+        <h2><%= @plans_count %></h2>
+        <%= link_to "Manage Plans", admin_plans_path, class: "btn btn-sm btn-outline-primary" %>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-6 col-xl-3">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h6 class="text-muted">Features</h6>
+        <h2><%= @features_count %></h2>
+        <%= link_to "Manage Features", admin_features_path, class: "btn btn-sm btn-outline-primary" %>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-6 col-xl-3">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h6 class="text-muted">Buyers</h6>
+        <h2><%= @buyers_count %></h2>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-6 col-xl-3">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h6 class="text-muted">Subscriptions</h6>
+        <h2><%= @subscriptions_count %></h2>
+        <%= link_to "View Subscriptions", admin_subscriptions_path, class: "btn btn-sm btn-outline-primary" %>
+      </div>
+    </div>
+  </div>
+
+  <div class="mt-4">
+    <h3>Quick Actions</h3>
+
+    <div class="row g-3 mt-1">
+      <div class="col-md-4">
+        <%= link_to new_admin_plan_path,
+            class: "btn btn-primary w-100 py-3" do %>
+          Create Plan
+        <% end %>
+      </div>
+
+      <div class="col-md-4">
+        <%= link_to new_admin_feature_path,
+            class: "btn btn-success w-100 py-3" do %>
+          Create Feature
+        <% end %>
+      </div>
+
+      <div class="col-md-4">
+        <%= link_to new_invitation_path,
+            class: "btn btn-info w-100 py-3" do %>
+          Send Invitation
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+</div>

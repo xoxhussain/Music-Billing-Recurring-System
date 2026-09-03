@@ -1,0 +1,25 @@
+<nav class="col-md-3 col-lg-2 d-md-block bg-light sidebar min-vh-100">
+  <div class="position-sticky pt-3">
+    <ul class="nav flex-column">
+      <li class="nav-item">
+        <%= link_to "Dashboard", admin_root_path, class: "nav-link" %>
+      </li>
+
+      <li class="nav-item">
+        <%= link_to "Plans", admin_plans_path, class: "nav-link" %>
+      </li>
+
+      <li class="nav-item">
+        <%= link_to "Features", admin_features_path, class: "nav-link" %>
+      </li>
+
+      <li class="nav-item">
+        <%= link_to "Subscriptions", admin_subscriptions_path, class: "nav-link" %>
+      </li>
+
+      <li class="nav-item">
+        <%= link_to "Invitations", new_invitation_path, class: "nav-link" %>
+      </li>
+    </ul>
+  </div>
+</nav>

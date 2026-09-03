@@ -1,0 +1,25 @@
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <h1>Features</h1>
+  <%= link_to "New Feature", new_admin_feature_path, class: "btn btn-primary" %>
+</div>
+
+<% @features.each do |feature| %>
+  <div class="card mb-3">
+    <div class="card-body d-flex justify-content-between align-items-center">
+      <div>
+        <h5><%= feature.name %></h5>
+        <p class="mb-0"><%= feature.code %></p>
+      </div>
+
+      <div>
+        <%= link_to "View", admin_feature_path(feature), class: "btn btn-outline-primary btn-sm" %>
+        <%= link_to "Edit", edit_admin_feature_path(feature), class: "btn btn-outline-secondary btn-sm" %>
+        <%= button_to "Delete",
+            admin_feature_path(feature),
+            method: :delete,
+            class: "btn btn-outline-danger btn-sm",
+            data: { turbo_confirm: "Are you sure?" } %>
+      </div>
+    </div>
+  </div>
+<% end %>

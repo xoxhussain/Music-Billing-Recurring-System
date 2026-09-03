@@ -4,7 +4,7 @@ class Plan < ApplicationRecord
   has_many :plan_features, dependent: :destroy
   has_many :features, through: :plan_features
 
-  validates :name, presence: true
+  validates :name, presence: true, uniqueness: true
 
   validates :monthly_fee,
             presence: true,
