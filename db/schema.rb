@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_09_01_180800) do
+ActiveRecord::Schema[8.1].define(version: 2026_09_03_010248) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.bigint "blob_id", null: false
     t.datetime "created_at", null: false
@@ -47,6 +47,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_01_180800) do
     t.decimal "unit_price"
     t.datetime "updated_at", null: false
     t.index ["code"], name: "index_features_on_code", unique: true
+    t.check_constraint "max_unit_limit >= 0", name: "features_max_unit_limit_non_negative"
+    t.check_constraint "unit_price >= 0", name: "features_unit_price_non_negative"
   end
 
   create_table "invitations", force: :cascade do |t|
@@ -86,6 +88,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_01_180800) do
     t.decimal "monthly_fee"
     t.string "name"
     t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_plans_on_name", unique: true
   end
 
   create_table "roles", force: :cascade do |t|
@@ -113,6 +116,11 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_01_180800) do
     t.integer "user_id", null: false
     t.index ["plan_id"], name: "index_subscriptions_on_plan_id"
     t.index ["user_id"], name: "index_subscriptions_on_user_id"
+  end
+
+  create_table "tests", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "transactions", force: :cascade do |t|

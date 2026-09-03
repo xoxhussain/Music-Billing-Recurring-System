@@ -1,0 +1,9 @@
+<nav class="navbar navbar-dark bg-dark">
+  <div class="container-fluid">
+    <%= link_to "Music App Admin", admin_root_path, class: "navbar-brand" %>
+
+    <span class="navbar-text text-white">
+      <%= current_user.name %>
+    </span>
+  </div>
+</nav>
