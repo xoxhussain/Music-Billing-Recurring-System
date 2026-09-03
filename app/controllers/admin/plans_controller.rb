@@ -1,8 +1,4 @@
-class Admin::PlansController < ApplicationController
-  include AdminAuthorization
-
-  layout "admin"
-
+class Admin::PlansController < Admin::BaseController
   before_action :set_plan, only: [ :show, :edit, :update, :destroy ]
 
   def index
@@ -23,11 +19,9 @@ class Admin::PlansController < ApplicationController
     end
   end
 
-  def show
-  end
+  def show; end
 
-  def edit
-  end
+  def edit; end
 
   def update
     if @plan.update(plan_params)

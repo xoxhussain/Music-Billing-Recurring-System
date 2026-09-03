@@ -1,30 +1,15 @@
-class Admin::SubscriptionsController < ApplicationController
-  include AdminAuthorization
-
-  layout "admin"
-
+class Admin::SubscriptionsController < Admin::BaseController
   before_action :set_subscription, only: :show
 
   def index
-    @subscriptions = Subscription.includes(
-      :user,
-      :plan,
-      :subscription_statuses,
-      usage_entries: { plan_feature: :feature }
-    )
+    @subscriptions = Subscription.with_details
   end
 
-  def show
-  end
+  def show; end
 
   private
 
   def set_subscription
-    @subscription = Subscription.includes(
-      :user,
-      :plan,
-      :subscription_statuses,
-      usage_entries: { plan_feature: :feature }
-    ).find(params[:id])
+    @subscription = Subscription.with_details.find(params[:id])
   end
 end

@@ -1,8 +1,4 @@
-class Admin::FeaturesController < ApplicationController
-  include AdminAuthorization
-
-  layout "admin"
-
+class Admin::FeaturesController < Admin::BaseController
   before_action :set_feature, only: [ :show, :edit, :update, :destroy ]
 
   def index
@@ -23,11 +19,9 @@ class Admin::FeaturesController < ApplicationController
     end
   end
 
-  def show
-  end
+  def show; end
 
-  def edit
-  end
+  def edit; end
 
   def update
     if @feature.update(feature_params)
