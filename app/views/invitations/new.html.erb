@@ -1,14 +1,52 @@
-<h1>Invitations#new</h1>
-<h1>Invite a User</h1>
-
-<%= form_with model: @invitation do |form| %>
-
+<div class="d-flex justify-content-between align-items-center mb-4">
   <div>
-    <%= form.label :email, "Email" %>
-    <%= form.email_field :email, required: true %>
+    <h1>Invite a User</h1>
+    <p class="text-muted">
+      Send an invitation to create a buyer account.
+    </p>
   </div>
 
-  <div>
-    <%= form.submit "Send Invitation" %>
+  <%= link_to "Back to Dashboard",
+      admin_root_path,
+      class: "btn btn-outline-primary" %>
+</div>
+
+<div class="row justify-content-center">
+  <div class="col-md-8 col-lg-6">
+
+    <div class="card shadow-sm">
+      <div class="card-body p-4">
+
+        <h5 class="card-title mb-4">Invitation Details</h5>
+
+        <%= form_with model: @invitation do |form| %>
+
+          <div class="mb-3">
+            <%= form.label :email, "Buyer Email", class: "form-label" %>
+
+            <%= form.email_field :email,
+                required: true,
+                class: "form-control",
+                placeholder: "buyer@example.com" %>
+
+            <div class="form-text">
+              An invitation link will be sent to this email address.
+            </div>
+          </div>
+
+          <div class="d-flex justify-content-end gap-2">
+            <%= link_to "Cancel",
+                admin_root_path,
+                class: "btn btn-outline-secondary" %>
+
+            <%= form.submit "Send Invitation",
+                class: "btn btn-primary" %>
+          </div>
+
+        <% end %>
+
+      </div>
+    </div>
+
   </div>
-<% end %>
+</div>

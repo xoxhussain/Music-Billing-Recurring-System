@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_09_03_010248) do
+ActiveRecord::Schema[8.1].define(version: 2026_09_07_161347) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.bigint "blob_id", null: false
     t.datetime "created_at", null: false
@@ -63,7 +63,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_03_010248) do
   end
 
   create_table "payment_authorizations", force: :cascade do |t|
-    t.boolean "authorized"
+    t.boolean "authorized", default: false, null: false
     t.datetime "created_at", null: false
     t.string "stripe_customer_id"
     t.string "stripe_payment_method_id"
@@ -101,7 +101,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_03_010248) do
   create_table "subscription_statuses", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.boolean "is_using", default: false, null: false
-    t.string "status", null: false
+    t.integer "status", default: 0, null: false
     t.integer "subscription_id", null: false
     t.datetime "updated_at", null: false
     t.index ["subscription_id"], name: "index_subscription_statuses_on_subscription_id"
