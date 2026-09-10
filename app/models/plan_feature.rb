@@ -2,7 +2,7 @@ class PlanFeature < ApplicationRecord
   belongs_to :plan
   belongs_to :feature
 
-  has_many :usage_entries, dependent: :restrict_with_error
+  has_many :usage_entries, dependent: :destroy
 
   validates :feature_id, uniqueness: { scope: :plan_id }
 
