@@ -5,7 +5,11 @@ class SubscriptionsController < ApplicationController
   before_action :require_buyer
 
   def index
-    @subscriptions = current_user.subscriptions.includes(:plan)
+    @subscriptions = current_user.subscriptions.includes(
+      :subscription_statuses,
+      plan: { plan_features: :feature },
+      usage_entries: { plan_feature: :feature }
+    )
   end
 
   def create

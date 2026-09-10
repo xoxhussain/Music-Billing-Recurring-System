@@ -11,6 +11,18 @@ class Subscription < ApplicationRecord
   validate :payment_authorized, on: :create
   validate :no_active_duplicate_plan, on: :create
 
+  def usage_for(plan_feature)
+    usage_entries.where(plan_feature_id: plan_feature.id).sum(:quantity)
+  end
+
+  def usage_exceeded?(plan_feature)
+    max_limit = plan_feature.feature.max_unit_limit
+
+    return false if max_limit.nil?
+
+    usage_for(plan_feature) > max_limit
+  end
+
   scope :with_details, -> {
     includes(
       :user,

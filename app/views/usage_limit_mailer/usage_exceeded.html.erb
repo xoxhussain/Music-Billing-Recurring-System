@@ -1,0 +1,35 @@
+<h2>Usage Limit Exceeded</h2>
+
+<p>Hello <%= @user.name %>,</p>
+
+<p>
+  Your usage for <strong><%= @feature.name %></strong>
+  has exceeded the limit for your
+  <strong><%= @subscription.plan.name %></strong> plan.
+</p>
+
+<table>
+  <tr>
+    <td><strong>Feature:</strong></td>
+    <td><%= @feature.name %></td>
+  </tr>
+
+  <tr>
+    <td><strong>Current usage:</strong></td>
+    <td><%= @current_usage %></td>
+  </tr>
+
+  <tr>
+    <td><strong>Maximum allowed:</strong></td>
+    <td><%= @max_limit %></td>
+  </tr>
+</table>
+
+<p>
+  Please review your usage or consider upgrading your plan if necessary.
+</p>
+
+<p>
+  Thanks,<br>
+  Music App Team
+</p>
