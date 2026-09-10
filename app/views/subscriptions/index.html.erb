@@ -1,7 +1,7 @@
 <div class="d-flex justify-content-between align-items-center mb-4">
   <div>
-    <h1>My Subscriptions</h1>
-    <p class="text-muted">
+    <h1 class="mb-1">My Subscriptions</h1>
+    <p class="text-muted mb-0">
       View your active music subscriptions.
     </p>
   </div>
@@ -16,41 +16,162 @@
     <% @subscriptions.each do |subscription| %>
       <% status = subscription.subscription_statuses.last %>
 
-      <div class="col-md-6 col-xl-4">
-        <div class="card shadow-sm h-100">
+      <div class="col-12">
+        <div class="card shadow-sm">
 
-          <div class="card-body d-flex flex-column">
+          <div class="card-body">
 
-            <h4 class="card-title mb-3">
-              <%= subscription.plan.name %>
-            </h4>
+            <div class="d-flex justify-content-between align-items-start mb-4">
 
-            <h5 class="mb-4">
-              <%= number_to_currency(subscription.plan.monthly_fee) %>
-              <small class="text-muted fs-6">/ month</small>
-            </h5>
+              <div>
+                <h3 class="mb-1">
+                  <%= subscription.plan.name %>
+                </h3>
 
-            <p>
-              <strong>Started:</strong>
-              <%= subscription.started_at.strftime("%d %B %Y") %>
-            </p>
+                <div class="text-muted">
+                  <%= number_to_currency(subscription.plan.monthly_fee) %>
+                  / month
+                </div>
+              </div>
 
-            <p>
-              <strong>Status:</strong>
+              <div>
+                <% if status&.status == "active" %>
+                  <span class="badge bg-success px-3 py-2">
+                    Active
+                  </span>
+                <% else %>
+                  <span class="badge bg-secondary px-3 py-2">
+                    <%= status&.status&.humanize || "Unknown" %>
+                  </span>
+                <% end %>
+              </div>
 
-              <% if status&.status == "active" %>
-                <span class="badge bg-success">Active</span>
-              <% else %>
-                <span class="badge bg-secondary">
-                  <%= status&.status&.humanize || "Unknown" %>
-                </span>
+            </div>
+
+            <div class="row mb-4">
+
+              <div class="col-md-4">
+                <small class="text-muted d-block">Started</small>
+                <strong>
+                  <%= subscription.started_at.strftime("%d %B %Y") %>
+                </strong>
+              </div>
+
+              <div class="col-md-4">
+                <small class="text-muted d-block">Using</small>
+                <strong>
+                  <%= status&.is_using ? "Yes" : "No" %>
+                </strong>
+              </div>
+
+            </div>
+
+
+            <hr>
+
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <h5 class="mb-0">Usage</h5>
+              <small class="text-muted">
+                Track your plan limits
+              </small>
+            </div>
+
+
+            <div class="row g-3">
+
+              <% subscription.plan.plan_features.each do |plan_feature| %>
+
+                <% current_usage = subscription.usage_for(plan_feature) %>
+                <% max_limit = plan_feature.feature.max_unit_limit %>
+                <% exceeded = subscription.usage_exceeded?(plan_feature) %>
+
+                <div class="col-md-6">
+
+                  <div class="border rounded p-3 h-100">
+
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+
+                      <strong>
+                        <%= plan_feature.feature.name %>
+                      </strong>
+
+                      <% if max_limit.present? %>
+                        <small class="text-muted">
+                          <%= current_usage %> / <%= max_limit %>
+                        </small>
+                      <% else %>
+                        <small class="text-muted">
+                          <%= current_usage %> used
+                        </small>
+                      <% end %>
+
+                    </div>
+
+                    <% if max_limit.present? %>
+
+                      <% percentage = [
+                        (current_usage.to_f / max_limit * 100),
+                        100
+                      ].min %>
+
+                      <div
+                        class="progress mb-2"
+                        style="height: 7px;"
+                      >
+                        <div
+                          class="progress-bar <%= 'bg-danger' if exceeded %>"
+                          role="progressbar"
+                          style="width: <%= percentage %>%"
+                        ></div>
+                      </div>
+
+                      <% if exceeded %>
+
+                        <small class="text-danger fw-semibold">
+                          Usage limit exceeded
+                        </small>
+
+                      <% else %>
+
+                        <small class="text-muted">
+                          <%= max_limit - current_usage %> remaining
+                        </small>
+
+                      <% end %>
+
+                    <% end %>
+
+                    <%= form_with(
+                          model: [subscription, UsageEntry.new],
+                          local: true,
+                          class: "mt-3"
+                        ) do |form| %>
+
+                      <%= form.hidden_field :plan_feature_id,
+                                            value: plan_feature.id %>
+
+                      <div class="input-group">
+
+                        <%= form.number_field :quantity,
+                                              min: 1,
+                                              step: 1,
+                                              class: "form-control",
+                                              placeholder: "Amount" %>
+
+                        <%= form.submit "Add Usage",
+                                        class: "btn btn-outline-primary" %>
+
+                      </div>
+
+                    <% end %>
+
+                  </div>
+
+                </div>
+
               <% end %>
-            </p>
 
-            <p class="mb-0">
-              <strong>Using:</strong>
-              <%= status&.is_using ? "Yes" : "No" %>
-            </p>
+            </div>
 
           </div>
 
@@ -66,9 +187,9 @@
   <div class="card shadow-sm">
     <div class="card-body text-center py-5">
 
-      <h4>No subscriptions yet</h4>
+      <h4 class="mb-2">No subscriptions yet</h4>
 
-      <p class="text-muted">
+      <p class="text-muted mb-4">
         You don't have any subscriptions.
         Browse our available plans to get started.
       </p>

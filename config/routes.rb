@@ -1,7 +1,13 @@
 Rails.application.routes.draw do
-  resources :plans, only: [ :index ]
-  resources :subscriptions, only: [ :index, :create ]
   devise_for :users
+
+  root "home#index"
+
+  resources :plans, only: :index
+
+  resources :subscriptions, only: [ :index, :create ] do
+    resources :usage_entries, only: :create
+  end
 
   resources :invitations, only: [ :new, :create ]
 
@@ -10,24 +16,20 @@ Rails.application.routes.draw do
         via: [ :get, :post ],
         as: :accept_invitation
 
-  root "home#index"
+  resource :payment_authorization, only: [ :show, :create ] do
+    get :confirm
+  end
 
   namespace :admin do
-    get "features/index"
-    get "features/new"
-    get "features/edit"
-    get "features/show"
     root "dashboard#index"
 
     resources :features
+
     resources :plans do
       resources :plan_features, only: [ :create, :destroy ]
     end
-    resources :subscriptions, only: [ :index, :show ]
-  end
 
-  resource :payment_authorization, only: [ :show, :create ] do
-    get :confirm
+    resources :subscriptions, only: [ :index, :show ]
   end
 
   get "up" => "rails/health#show", as: :rails_health_check

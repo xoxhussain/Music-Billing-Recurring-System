@@ -4,7 +4,11 @@ class SubscriptionsController < Buyer::BaseController
   before_action :set_plan, only: :create
 
   def index
-    @subscriptions = current_user.subscriptions.includes(:plan)
+    @subscriptions = current_user.subscriptions.includes(
+      :subscription_statuses,
+      plan: { plan_features: :feature },
+      usage_entries: { plan_feature: :feature }
+    )
   end
 
   def create
