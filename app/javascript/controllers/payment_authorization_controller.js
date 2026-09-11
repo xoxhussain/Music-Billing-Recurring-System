@@ -52,6 +52,6 @@ export default class extends Controller {
     }
 
     window.location.href =
-      `/payment_authorization/confirm?setup_intent_id=${setupIntent.id}`
+      `/payment_authorization/confirm?payment_setup_intent_id=${setupIntent.id}`
   }
 }

@@ -2,9 +2,7 @@ class UsageEntry < ApplicationRecord
   belongs_to :subscription
   belongs_to :plan_feature
 
-  validates :quantity,
-             presence: true,
-             numericality: { only_integer: true, greater_than: 0 }
+  validates :quantity, presence: true, numericality: { only_integer: true, greater_than: 0 }
 
   validate :plan_feature_belongs_to_subscription
 

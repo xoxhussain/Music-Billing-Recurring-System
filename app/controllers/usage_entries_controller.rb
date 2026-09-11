@@ -36,6 +36,6 @@ class UsageEntriesController < ApplicationController
   end
 
   def usage_entry_params
-    params.require(:usage_entry).permit(:quantity, :plan_feature_id)
+    params.expect(usage_entry: [ :quantity, :plan_feature_id ])
   end
 end
