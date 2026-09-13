@@ -1,0 +1,81 @@
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <div>
+    <h1>My Subscriptions</h1>
+    <p class="text-muted">
+      View your active music subscriptions.
+    </p>
+  </div>
+
+  <%= link_to "Browse Plans", plans_path, class: "btn btn-primary" %>
+</div>
+
+<% if @subscriptions.any? %>
+
+  <div class="row g-4">
+
+    <% @subscriptions.each do |subscription| %>
+      <% status = subscription.subscription_statuses.last %>
+
+      <div class="col-md-6 col-xl-4">
+        <div class="card shadow-sm h-100">
+
+          <div class="card-body d-flex flex-column">
+
+            <h4 class="card-title mb-3">
+              <%= subscription.plan.name %>
+            </h4>
+
+            <h5 class="mb-4">
+              <%= number_to_currency(subscription.plan.monthly_fee) %>
+              <small class="text-muted fs-6">/ month</small>
+            </h5>
+
+            <p>
+              <strong>Started:</strong>
+              <%= subscription.started_at.strftime("%d %B %Y") %>
+            </p>
+
+            <p>
+              <strong>Status:</strong>
+
+              <% if status&.status == "active" %>
+                <span class="badge bg-success">Active</span>
+              <% else %>
+                <span class="badge bg-secondary">
+                  <%= status&.status&.humanize || "Unknown" %>
+                </span>
+              <% end %>
+            </p>
+
+            <p class="mb-0">
+              <strong>Using:</strong>
+              <%= status&.is_using ? "Yes" : "No" %>
+            </p>
+
+          </div>
+
+        </div>
+      </div>
+
+    <% end %>
+
+  </div>
+
+<% else %>
+
+  <div class="card shadow-sm">
+    <div class="card-body text-center py-5">
+
+      <h4>No subscriptions yet</h4>
+
+      <p class="text-muted">
+        You don't have any subscriptions.
+        Browse our available plans to get started.
+      </p>
+
+      <%= link_to "Browse Plans", plans_path, class: "btn btn-primary" %>
+
+    </div>
+  </div>
+
+<% end %>
