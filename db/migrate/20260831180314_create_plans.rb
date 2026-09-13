@@ -1,8 +1,8 @@
 class CreatePlans < ActiveRecord::Migration[8.1]
   def change
     create_table :plans do |t|
-      t.string :name
-      t.decimal :monthly_fee
+      t.string :name, null: false
+      t.decimal :monthly_fee, null: false
 
       t.timestamps
     end

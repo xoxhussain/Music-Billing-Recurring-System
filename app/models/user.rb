@@ -11,27 +11,15 @@ class User < ApplicationRecord
 
   has_one :payment_authorization, dependent: :destroy
 
-  has_many :sent_invitations,
-           class_name: "Invitation",
-           foreign_key: :inviter_id,
-           dependent: :destroy
+  has_many :sent_invitations, class_name: "Invitation", foreign_key: :inviter_id, dependent: :destroy
 
   has_one_attached :profile_photo
 
   validates :name, presence: true
 
-  validates :billing_day,
-            numericality: {
-              only_integer: true,
-              in: 1..30
-            },
-            allow_nil: true
+  validates :billing_day, numericality: { only_integer: true, in: 1..30 }, allow_nil: true
 
-  def admin?
-    role.role == "Admin"
-  end
+  def admin? = role.role == "Admin"
 
-  def buyer?
-    role.role == "Buyer"
-  end
+  def buyer? = role.role == "Buyer"
 end

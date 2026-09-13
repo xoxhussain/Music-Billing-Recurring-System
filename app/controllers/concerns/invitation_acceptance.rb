@@ -3,22 +3,12 @@ module InvitationAcceptance
 
   private
 
-  def find_invitation
-    Invitation.find_by(token: params[:token])
-  end
-
   def valid_invitation?
     if @invitation.nil? || @invitation.accepted_at.present?
       redirect_to root_path, alert: t("invitations.accept.invalid")
-      return false
-    end
-
-    if @invitation.expires_at.present? && @invitation.expires_at < Time.current
+    elsif @invitation.expires_at.present? && @invitation.expires_at < Time.current
       redirect_to root_path, alert: t("invitations.accept.expired")
-      return false
     end
-
-    true
   end
 
   def build_user
@@ -44,10 +34,6 @@ module InvitationAcceptance
   end
 
   def user_params
-    params.require(:user).permit(
-      :name,
-      :password,
-      :password_confirmation
-    )
+    params.expect(user: [:name, :password, :password_confirmation])
   end
 end
