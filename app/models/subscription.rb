@@ -8,12 +8,5 @@ class Subscription < ApplicationRecord
 
   validates :started_at, presence: true
 
-  scope :with_details, -> {
-    includes(
-      :user,
-      :plan,
-      :subscription_statuses,
-      usage_entries: { plan_feature: :feature }
-    )
-  }
+  scope :with_details, -> { includes(:user, :plan, :subscription_statuses, usage_entries: { plan_feature: :feature }) }
 end

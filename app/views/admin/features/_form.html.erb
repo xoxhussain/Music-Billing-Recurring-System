@@ -1,9 +1,5 @@
 <%= form_with model: [:admin, feature] do |form| %>
-  <% if feature.errors.any? %>
-    <div class="alert alert-danger">
-      <%= feature.errors.full_messages.to_sentence %>
-    </div>
-  <% end %>
+  <%= render "shared/form_errors", object: feature %>
 
   <div class="mb-3">
     <%= form.label :name, class: "form-label" %>

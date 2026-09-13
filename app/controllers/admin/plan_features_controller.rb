@@ -26,6 +26,6 @@ class Admin::PlanFeaturesController < Admin::BaseController
   end
 
   def plan_feature_params
-    params.require(:plan_feature).permit(:feature_id, :max_unit_price)
+    params.expect(plan_feature: [:feature_id, :max_unit_price])
   end
 end
