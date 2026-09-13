@@ -5,6 +5,6 @@ class Admin::DashboardController < Admin::BaseController
     @plans_count = Plan.count
     @features_count = Feature.count
     @subscriptions_count = Subscription.count
-    @buyers_count = User.joins(:role).where(roles: { role: "Buyer" }).count
+    @buyers_count = User.buyers.count
   end
 end

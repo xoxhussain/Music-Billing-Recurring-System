@@ -46,11 +46,6 @@ class Admin::FeaturesController < Admin::BaseController
   end
 
   def feature_params
-    params.require(:feature).permit(
-      :name,
-      :code,
-      :unit_price,
-      :max_unit_limit
-    )
+    params.expect(feature: [:name, :code, :unit_price, :max_unit_limit])
   end
 end
