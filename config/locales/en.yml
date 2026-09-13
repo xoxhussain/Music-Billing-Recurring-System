@@ -1,0 +1,13 @@
+en:
+  invitations:
+    create:
+      success: "Invitation sent successfully."
+    accept:
+      invalid: "Invalid invitation."
+      expired: "Invitation has expired."
+      account_created: "Account created successfully. You can now sign in."
+    unauthorized: "Unauthorized."
+
+  invitation_mailer:
+    invitation:
+      subject: "You're invited to join our music subscription platform"

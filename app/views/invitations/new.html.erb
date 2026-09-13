@@ -1,0 +1,14 @@
+<h1>Invitations#new</h1>
+<h1>Invite a User</h1>
+
+<%= form_with model: @invitation do |form| %>
+
+  <div>
+    <%= form.label :email, "Email" %>
+    <%= form.email_field :email, required: true %>
+  </div>
+
+  <div>
+    <%= form.submit "Send Invitation" %>
+  </div>
+<% end %>
