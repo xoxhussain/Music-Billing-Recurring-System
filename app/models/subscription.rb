@@ -48,4 +48,6 @@ class Subscription < ApplicationRecord
       errors.add(:plan, "already exists")
     end
   end
+
+  scope :with_details, -> { includes(:user, :plan, :subscription_statuses, usage_entries: { plan_feature: :feature }) }
 end
