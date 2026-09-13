@@ -85,8 +85,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_03_010248) do
 
   create_table "plans", force: :cascade do |t|
     t.datetime "created_at", null: false
-    t.decimal "monthly_fee"
-    t.string "name"
+    t.decimal "monthly_fee", null: false
+    t.string "name", null: false
     t.datetime "updated_at", null: false
     t.index ["name"], name: "index_plans_on_name", unique: true
   end
@@ -124,7 +124,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_03_010248) do
   end
 
   create_table "transactions", force: :cascade do |t|
-    t.decimal "amount"
+    t.decimal "amount", null: false
     t.datetime "created_at", null: false
     t.datetime "occurred_at"
     t.string "status"

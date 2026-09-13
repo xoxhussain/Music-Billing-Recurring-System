@@ -23,8 +23,9 @@ class InvitationsController < ApplicationController
   end
 
   def accept
-    @invitation = find_invitation
-    return unless valid_invitation?
+    @invitation = Invitation.find_by(token: params[:token])
+    valid_invitation?
+    return if performed?
 
     if request.get?
       build_user
