@@ -11,14 +11,7 @@ class Subscription < ApplicationRecord
   validate :payment_authorized, on: :create
   validate :no_active_duplicate_plan, on: :create
 
-  scope :with_details, -> {
-    includes(
-      :user,
-      :plan,
-      :subscription_statuses,
-      usage_entries: { plan_feature: :feature }
-    )
-  }
+  scope :with_details, -> { includes(:user, :plan, :subscription_statuses, usage_entries: { plan_feature: :feature }) }
 
   private
 
