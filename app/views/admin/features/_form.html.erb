@@ -1,0 +1,25 @@
+<%= form_with model: [:admin, feature] do |form| %>
+  <%= render "shared/form_errors", object: feature %>
+
+  <div class="mb-3">
+    <%= form.label :name, class: "form-label" %>
+    <%= form.text_field :name, class: "form-control" %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :code, class: "form-label" %>
+    <%= form.text_field :code, class: "form-control" %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :unit_price, class: "form-label" %>
+    <%= form.number_field :unit_price, step: 0.01, min: 0, class: "form-control" %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :max_unit_limit, class: "form-label" %>
+    <%= form.number_field :max_unit_limit, min: 0, class: "form-control" %>
+  </div>
+
+  <%= form.submit class: "btn btn-primary" %>
+<% end %>
