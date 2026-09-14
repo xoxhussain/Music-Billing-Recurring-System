@@ -1,8 +1,5 @@
-class PaymentAuthorizationsController < ApplicationController
+class PaymentAuthorizationsController < Buyer::BaseController
   layout "buyer"
-
-  before_action :authenticate_user!
-  before_action :require_buyer
 
   def show
     @payment_authorization = current_user.payment_authorization
@@ -10,15 +7,13 @@ class PaymentAuthorizationsController < ApplicationController
   end
 
   def create
-    setup_intent = PaymentAuthorizationService.new(current_user).create_setup_intent
+    payment_setup_intent = PaymentAuthorizationService.new(current_user).create_payment_setup_intent
 
-    render json: { client_secret: setup_intent.client_secret }
+    render json: { client_secret: payment_setup_intent.client_secret }
   end
 
   def confirm
-    authorized = PaymentAuthorizationService
-      .new(current_user)
-      .confirm_setup_intent(params[:setup_intent_id])
+    authorized = PaymentAuthorizationService.new(current_user).confirm_payment_setup_intent(params[:payment_setup_intent_id])
 
     if authorized
       redirect_to payment_authorization_path,

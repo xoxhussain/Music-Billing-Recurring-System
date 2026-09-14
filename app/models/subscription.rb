@@ -13,14 +13,7 @@ class Subscription < ApplicationRecord
   validate :payment_authorized, on: :create
   validate :no_active_duplicate_plan, on: :create
 
-  scope :with_details, -> {
-    includes(
-      :user,
-      :plan,
-      :subscription_statuses,
-      usage_entries: { plan_feature: :feature }
-    )
-  }
+  scope :active, -> { where(unsubscribed_at: nil) }
 
   private
 
@@ -31,10 +24,7 @@ class Subscription < ApplicationRecord
   end
 
   def no_active_duplicate_plan
-    if user.subscriptions
-        .where(plan_id: plan_id)
-        .where(unsubscribed_at: nil)
-        .exists?
+    if user.subscriptions.active.where(plan_id: plan_id).exists?
       errors.add(:plan, "already exists")
     end
   end
