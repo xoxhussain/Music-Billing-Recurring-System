@@ -11,6 +11,10 @@ class Subscription < ApplicationRecord
   validate :payment_authorized, on: :create
   validate :no_active_duplicate_plan, on: :create
 
+
+  scope :active, -> { where(unsubscribed_at: nil) }
+  scope :with_details, -> { includes(:user, :plan, :subscription_statuses, usage_entries: { plan_feature: :feature }) }
+
   def usage_for(plan_feature)
     usage_entries.where(plan_feature_id: plan_feature.id).sum(:quantity)
   end
@@ -23,15 +27,6 @@ class Subscription < ApplicationRecord
     usage_for(plan_feature) > max_limit
   end
 
-  scope :with_details, -> {
-    includes(
-      :user,
-      :plan,
-      :subscription_statuses,
-      usage_entries: { plan_feature: :feature }
-    )
-  }
-
   private
 
   def payment_authorized
@@ -41,10 +36,7 @@ class Subscription < ApplicationRecord
   end
 
   def no_active_duplicate_plan
-    if user.subscriptions
-        .where(plan_id: plan_id)
-        .where(unsubscribed_at: nil)
-        .exists?
+    if user.subscriptions.active.where(plan_id: plan_id).exists?
       errors.add(:plan, "already exists")
     end
   end

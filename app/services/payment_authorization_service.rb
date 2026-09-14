@@ -19,7 +19,7 @@ class PaymentAuthorizationService
     payment_setup_intent
   end
 
-  def confirm_setup_intent(payment_setup_intent_id)
+  def confirm_payment_setup_intent(payment_setup_intent_id)
     payment_authorization = @user.payment_authorization
     payment_setup_intent = Stripe::SetupIntent.retrieve(payment_setup_intent_id)
 
@@ -47,10 +47,7 @@ class PaymentAuthorizationService
     if payment_authorization.stripe_customer_id.present?
       Stripe::Customer.retrieve(payment_authorization.stripe_customer_id)
     else
-      Stripe::Customer.create(
-        email: @user.email,
-        name: @user.name
-      )
+      Stripe::Customer.create(email: @user.email, name: @user.name)
     end
   end
 
