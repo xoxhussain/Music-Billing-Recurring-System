@@ -158,6 +158,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_07_161347) do
     t.string "reset_password_token"
     t.integer "role_id"
     t.datetime "updated_at", null: false
+    t.text "about"
+    t.text "interests"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["role_id"], name: "index_users_on_role_id"

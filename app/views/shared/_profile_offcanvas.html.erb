@@ -1,0 +1,140 @@
+<div class="offcanvas offcanvas-end" tabindex="-1" id="profileOffcanvas" aria-labelledby="profileOffcanvasLabel">
+  <div class="offcanvas-header border-bottom">
+    <h5 class="offcanvas-title" id="profileOffcanvasLabel">My Profile</h5>
+
+    <button type="button"
+            class="btn-close"
+            data-bs-dismiss="offcanvas"
+            aria-label="Close"></button>
+  </div>
+
+  <div class="offcanvas-body">
+
+    <div class="text-center mb-4">
+      <% if current_user.profile_photo.attached? %>
+        <%= image_tag current_user.profile_photo,
+            class: "rounded-circle",
+            style: "width: 110px; height: 110px; object-fit: cover;" %>
+      <% else %>
+        <div class="rounded-circle bg-secondary text-white d-flex align-items-center justify-content-center mx-auto"
+             style="width: 110px; height: 110px;">
+          <span class="fs-1">
+            <%= current_user.name.first.upcase %>
+          </span>
+        </div>
+      <% end %>
+    </div>
+
+    <div class="text-center mb-4">
+      <h5 class="mb-1"><%= current_user.name %></h5>
+      <p class="text-muted mb-0"><%= current_user.email %></p>
+    </div>
+
+    <% if current_user.buyer? %>
+
+      <div class="mb-4">
+        <h6 class="fw-bold">About me</h6>
+
+        <p class="text-muted mb-0">
+          <%= current_user.about.presence || "No information added yet." %>
+        </p>
+      </div>
+
+      <div class="mb-4">
+        <h6 class="fw-bold">Interests</h6>
+
+        <p class="text-muted mb-0">
+          <%= current_user.interests.presence || "No interests added yet." %>
+        </p>
+      </div>
+
+      <div class="mb-4">
+        <h6 class="fw-bold mb-3">Subscriptions</h6>
+
+        <% if current_user.subscriptions.any? %>
+          <% current_user.subscriptions.includes(:plan).each do |subscription| %>
+            <div class="border rounded p-3 mb-2">
+              <div class="fw-semibold">
+                <%= subscription.plan.name %>
+              </div>
+
+              <div class="text-muted small">
+                $<%= subscription.plan.monthly_fee %> / month
+              </div>
+
+              <div class="mt-2">
+                <% if subscription.unsubscribed_at.nil? %>
+                  <span class="badge bg-success">Active</span>
+                <% else %>
+                  <span class="badge bg-secondary">Unsubscribed</span>
+                <% end %>
+              </div>
+            </div>
+          <% end %>
+        <% else %>
+          <p class="text-muted">No subscriptions yet.</p>
+        <% end %>
+      </div>
+
+    <% end %>
+
+    <hr>
+
+    <div class="mb-3">
+      <button class="btn btn-primary w-100"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#editProfileForm"
+              aria-expanded="false"
+              aria-controls="editProfileForm">
+        Edit Profile
+      </button>
+    </div>
+
+    <div class="collapse" id="editProfileForm">
+      <div class="border rounded p-3 mb-4">
+
+        <%= form_with model: current_user,
+                      url: profile_path,
+                      method: :patch,
+                      multipart: true do |form| %>
+
+          <div class="mb-3">
+            <%= form.label :name, class: "form-label" %>
+            <%= form.text_field :name, class: "form-control" %>
+          </div>
+
+          <div class="mb-3">
+            <%= form.label :profile_photo, "Profile Photo", class: "form-label" %>
+            <%= form.file_field :profile_photo, class: "form-control" %>
+          </div>
+
+          <% if current_user.buyer? %>
+
+            <div class="mb-3">
+              <%= form.label :about, class: "form-label" %>
+              <%= form.text_area :about, class: "form-control", rows: 3 %>
+            </div>
+
+            <div class="mb-3">
+              <%= form.label :interests, class: "form-label" %>
+              <%= form.text_area :interests, class: "form-control", rows: 3 %>
+            </div>
+
+          <% end %>
+
+          <%= form.submit "Save Changes", class: "btn btn-primary w-100" %>
+
+        <% end %>
+
+      </div>
+    </div>
+
+
+    <%= button_to "Sign Out",
+        destroy_user_session_path,
+        method: :delete,
+        class: "btn btn-outline-danger w-100" %>
+
+  </div>
+</div>
