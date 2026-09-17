@@ -1,0 +1,11 @@
+pending:
+  inviter: admin
+  email: invitee@example.com
+  token: valid_token_123
+  expires_at: <%= 24.hours.from_now %>
+
+expired:
+  inviter: admin
+  email: expired@example.com
+  token: expired_token_456
+  expires_at: <%= 1.day.ago %>

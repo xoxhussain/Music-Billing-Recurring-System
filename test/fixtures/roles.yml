@@ -1,0 +1,5 @@
+admin:
+  role: Admin
+
+buyer:
+  role: Buyer
