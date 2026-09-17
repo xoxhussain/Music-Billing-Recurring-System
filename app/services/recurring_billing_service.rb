@@ -30,7 +30,7 @@ class RecurringBillingService
     create_transaction(
       amount: amount,
       status: :failed,
-      stripe_payment_id: e.payment_intent&.id
+      stripe_payment_id: nil
     )
 
     halt_subscription

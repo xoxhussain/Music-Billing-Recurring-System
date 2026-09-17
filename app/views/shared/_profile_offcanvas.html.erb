@@ -109,6 +109,13 @@
             <%= form.file_field :profile_photo, class: "form-control" %>
           </div>
 
+          <% if current_user.profile_photo.attached? %>
+            <div class="form-check mb-3">
+              <%= form.check_box :remove_profile_photo, class: "form-check-input" %>
+              <%= form.label :remove_profile_photo, "Remove profile photo", class: "form-check-label" %>
+            </div>
+          <% end %>
+
           <% if current_user.buyer? %>
 
             <div class="mb-3">

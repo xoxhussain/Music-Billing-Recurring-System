@@ -3,6 +3,8 @@ class ProfilesController < ApplicationController
 
   def update
     if current_user.update(profile_params)
+      current_user.profile_photo.purge if params.dig(:user, :remove_profile_photo) == "1"
+
       redirect_back fallback_location: root_path, notice: "Profile updated successfully."
     else
       redirect_back fallback_location: root_path, alert: current_user.errors.full_messages.to_sentence
