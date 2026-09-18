@@ -38,7 +38,7 @@ class InvitationsController < ApplicationController
   private
 
   def invitation_params
-    params.require(:invitation).permit(:email)
+    params.expect(invitation: [ :email ])
   end
 
   def require_admin
