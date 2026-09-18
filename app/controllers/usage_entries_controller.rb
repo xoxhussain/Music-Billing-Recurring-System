@@ -1,5 +1,4 @@
-class UsageEntriesController < ApplicationController
-  before_action :authenticate_user!
+class UsageEntriesController < Buyer::BaseController
   before_action :set_subscription
   before_action :set_plan_feature
 

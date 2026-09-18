@@ -7,26 +7,29 @@
   <% @plans.each do |plan| %>
     <div class="col-md-4 mb-4">
       <div class="card h-100 shadow-sm">
-        <div class="card-body">
-          <h5 class="card-title"><%= plan.name %></h5>
+        <div class="card-body d-flex flex-column">
+            <h5 class="card-title"><%= plan.name %></h5>
 
           <p class="card-text">
             Monthly Fee: <strong><%= plan.monthly_fee %></strong>
           </p>
 
-          <%= link_to "View",
+          <div class="d-flex gap-2 mt-auto">
+            <%= link_to "View",
               admin_plan_path(plan),
               class: "btn btn-outline-primary btn-sm" %>
 
-          <%= link_to "Edit",
+            <%= link_to "Edit",
               edit_admin_plan_path(plan),
               class: "btn btn-outline-secondary btn-sm" %>
 
-          <%= button_to "Delete",
+            <%= button_to "Delete",
               admin_plan_path(plan),
               method: :delete,
-              class: "btn btn-outline-danger btn-sm",
+              class: "btn btn-outline-danger btn-sm d-inline",
+              form: { class: "d-inline" },
               data: { turbo_confirm: "Are you sure?" } %>
+          </div>
         </div>
       </div>
     </div>

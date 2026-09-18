@@ -46,6 +46,6 @@ class Admin::PlansController < Admin::BaseController
   end
 
   def plan_params
-    params.expect(plan: [:name, :monthly_fee])
+    params.expect(plan: [ :name, :monthly_fee ])
   end
 end
