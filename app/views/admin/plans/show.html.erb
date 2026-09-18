@@ -1,0 +1,66 @@
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <h1><%= @plan.name %></h1>
+
+  <div>
+    <%= link_to "Edit", edit_admin_plan_path(@plan), class: "btn btn-primary" %>
+    <%= link_to "Back", admin_plans_path, class: "btn btn-secondary" %>
+  </div>
+</div>
+
+<div class="card shadow-sm mb-4">
+  <div class="card-body">
+    <p><strong>Name:</strong> <%= @plan.name %></p>
+    <p><strong>Monthly Fee:</strong> <%= @plan.monthly_fee %></p>
+  </div>
+</div>
+
+<div class="card shadow-sm">
+  <div class="card-body">
+    <h3 class="mb-3">Plan Features</h3>
+
+    <% @plan.plan_features.includes(:feature).each do |plan_feature| %>
+      <div class="d-flex justify-content-between align-items-center border-bottom py-2">
+        <div>
+          <strong><%= plan_feature.feature.name %></strong>
+          <span class="text-muted">
+            (<%= plan_feature.feature.code %>)
+          </span>
+        </div>
+
+        <%= button_to "Remove",
+            admin_plan_plan_feature_path(@plan, plan_feature),
+            method: :delete,
+            class: "btn btn-outline-danger btn-sm",
+            data: { turbo_confirm: "Remove this feature?" } %>
+      </div>
+    <% end %>
+
+    <hr>
+
+    <h5>Add Feature</h5>
+
+    <%= form_with model: [:admin, @plan, PlanFeature.new] do |form| %>
+      <div class="mb-3">
+        <%= form.label :feature_id, "Feature", class: "form-label" %>
+
+        <%= form.collection_select :feature_id,
+            Feature.where.not(id: @plan.feature_ids),
+            :id,
+            :name,
+            { prompt: "Select feature" },
+            class: "form-select" %>
+      </div>
+
+      <div class="mb-3">
+        <%= form.label :max_unit_price, class: "form-label" %>
+
+        <%= form.number_field :max_unit_price,
+            step: "0.01",
+            min: 0,
+            class: "form-control" %>
+      </div>
+
+      <%= form.submit "Add Feature", class: "btn btn-success" %>
+    <% end %>
+  </div>
+</div>
