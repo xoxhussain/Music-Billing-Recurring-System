@@ -9,4 +9,23 @@ class Subscription < ApplicationRecord
   validates :started_at, presence: true
 
   scope :with_details, -> { includes(:user, :plan, :subscription_statuses, usage_entries: { plan_feature: :feature }) }
+
+  validate :payment_authorized, on: :create
+  validate :no_active_duplicate_plan, on: :create
+
+  scope :active, -> { where(unsubscribed_at: nil) }
+
+  private
+
+  def payment_authorized
+    unless user.payment_authorization&.authorized?
+      errors.add(:base, "Payment Authorization is required")
+    end
+  end
+
+  def no_active_duplicate_plan
+    if user.subscriptions.active.where(plan_id: plan_id).exists?
+      errors.add(:plan, "already exists")
+    end
+  end
 end

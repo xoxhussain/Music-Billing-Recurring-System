@@ -16,7 +16,7 @@ class InvitationsController < ApplicationController
 
     if @invitation.save
       InvitationMailer.invitation(@invitation).deliver_later
-      redirect_to root_path, notice: t("invitations.create.success")
+      redirect_to admin_root_path, notice: t("invitations.create.success")
     else
       render :new, status: :unprocessable_entity
     end
@@ -34,7 +34,6 @@ class InvitationsController < ApplicationController
       create_user
     end
   end
-
 
   private
 

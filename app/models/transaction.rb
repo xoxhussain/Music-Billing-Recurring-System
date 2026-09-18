@@ -4,7 +4,7 @@ class Transaction < ApplicationRecord
 
   validates :amount, presence: true, numericality: { greater_than_or_equal_to: 0 }
 
-  validates :occured_at, presence: true
+  validates :occurred_at, presence: true
 
   enum :status, {
     pending: 0,
