@@ -3,7 +3,7 @@ class PaymentAuthorizationService
     @user = user
   end
 
-  def create_setup_intent
+  def create_payment_setup_intent
     payment_authorization = find_or_build_payment_authorization
     customer = find_or_create_customer(payment_authorization)
 
